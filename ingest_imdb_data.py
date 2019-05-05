@@ -120,7 +120,6 @@ def insert_tsv_data(db_name):
                         record_to_insert = (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], '{' + row[8] + '}')
                         # Execute statement and row
                         cur.execute(config.INSERT_TITLE, record_to_insert)
-                        print('')
                 if filename == config.NAME_FILE_NAME:
                     for row in tsv_rows_reader:
                         # Create a values row to insert
