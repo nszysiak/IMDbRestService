@@ -5,16 +5,19 @@ import json
 
 class EndPoint:
 
+    def __init__(self, db_name):
+        self.db_name = db_name
+
     def get_related_titles(self, surname, offset, per_page):
+
         connection = None
-        wk_db_name = config.IDBM_DB_NAME
         try:
             # Establish connection
             connection = psycopg2.connect(user=config.DATABASE_CONFIG['DB_USER'],
                                           password=config.DATABASE_CONFIG['DB_PWD'],
                                           host=config.DATABASE_CONFIG['DB_HOST'],
                                           port=config.DATABASE_CONFIG['DB_PORT'],
-                                          database=wk_db_name)
+                                          database=self.db_name)
             # Autocommit true
             connection.autocommit = True
             # Create cursor
@@ -46,15 +49,15 @@ class EndPoint:
                 print('Database connection closed.')
 
     def get_title_and_persons_based_on_genre(self, genre, offset, per_page):
+
         connection = None
-        wk_db_name = config.IDBM_DB_NAME
         try:
             # Establish connection
             connection = psycopg2.connect(user=config.DATABASE_CONFIG['DB_USER'],
                                           password=config.DATABASE_CONFIG['DB_PWD'],
                                           host=config.DATABASE_CONFIG['DB_HOST'],
                                           port=config.DATABASE_CONFIG['DB_PORT'],
-                                          database=wk_db_name)
+                                          database=self.db_name)
             # Autocommit true
             connection.autocommit = True
             # Create cursor
@@ -86,15 +89,15 @@ class EndPoint:
                 print('Database connection closed.')
 
     def get_title_and_persons_based_on_yr(self, start_year, offset, per_page):
+
         connection = None
-        wk_db_name = config.IDBM_DB_NAME
         try:
             # Establish connection
             connection = psycopg2.connect(user=config.DATABASE_CONFIG['DB_USER'],
                                           password=config.DATABASE_CONFIG['DB_PWD'],
                                           host=config.DATABASE_CONFIG['DB_HOST'],
                                           port=config.DATABASE_CONFIG['DB_PORT'],
-                                          database=wk_db_name)
+                                          database=self.db_name)
             # Autocommit true
             connection.autocommit = True
             # Create cursor

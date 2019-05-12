@@ -15,6 +15,7 @@ What things you need to install the software and how to install them
 
 In order to ingest database, please create a parametrized instance of Importer class.
 End-points are under EndPoint class (functions: get_title_and_pers_based_on_yr.py, get_title_and_pers_based_on_genre.py, get_related_titles.py).
+You can provide db_name parameter for each instance using config.IDBM_DB_NAME.
 ```
 ## Authors
 

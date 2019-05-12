@@ -10,7 +10,7 @@ class Importer:
     def __init__(self, db_name):
         self.db_name = db_name
 
-    def create_database(self, db_name):
+    def create_database(self):
 
         connection = None
         try:
@@ -26,21 +26,21 @@ class Importer:
             # Create cursor
             cur = connection.cursor()
             # Terminate all sessions in the working database except yours session
-            cur.execute(config.TERMINATE_SESSIONS % db_name)
+            cur.execute(config.TERMINATE_SESSIONS % self.db_name)
             # Create counter database statement
-            cnt_stmt = (config.COUNT_DATABASES % db_name)
+            cnt_stmt = (config.COUNT_DATABASES % self.db_name)
             # Execute counter database statement
             cur.execute(cnt_stmt)
             # Fetch amount od provided databases
             cnt_pointer = cur.fetchone()
             # Create or drop database if already exists and then create
             if cnt_pointer[0] == 1:
-                cur.execute(config.DROP_DB % db_name)
-                cur.execute(config.CREATE_DB % db_name)
+                cur.execute(config.DROP_DB % self.db_name)
+                cur.execute(config.CREATE_DB % self.db_name)
             else:
-                cur.execute(config.CREATE_DB % db_name)
-            print(db_name + " database has been created.")
-            return db_name
+                cur.execute(config.CREATE_DB % self.db_name)
+            print(self.db_name + " database has been created.")
+            return self.db_name
         except (Exception, psycopg2.Error) as error:
             print("Error while creating/dropping database: ", error)
         finally:
@@ -49,7 +49,7 @@ class Importer:
                 connection.close()
                 print('Database connection closed.')
 
-    def create_tables(self, db_name):
+    def create_tables(self):
         connection = None
         commands = config.CREATE_TABLES_STMT
         try:
@@ -58,7 +58,7 @@ class Importer:
                                           password=config.DATABASE_CONFIG['DB_PWD'],
                                           host=config.DATABASE_CONFIG['DB_HOST'],
                                           port=config.DATABASE_CONFIG['DB_PORT'],
-                                          database=db_name)
+                                          database=self.db_name)
             # Autocommit true
             connection.autocommit = True
             # Create cursor
@@ -76,7 +76,7 @@ class Importer:
                 connection.close()
                 print('Database connection closed.')
 
-    def insert_tsv_data(self, db_name):
+    def insert_tsv_data(self):
         connection = None
         try:
             # Establish connection
@@ -84,7 +84,7 @@ class Importer:
                                           password=config.DATABASE_CONFIG['DB_PWD'],
                                           host=config.DATABASE_CONFIG['DB_HOST'],
                                           port=config.DATABASE_CONFIG['DB_PORT'],
-                                          database=db_name)
+                                          database=self.db_name)
             # Autocommit true
             connection.autocommit = True
             # Create cursor
